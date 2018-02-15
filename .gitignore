@@ -20,3 +20,4 @@ _testmain.go
 
 *.pem
 ngrok
+.idea

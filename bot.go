@@ -14,23 +14,19 @@ func getBot(token string) *tgbotapi.BotAPI {
 		log.Fatalf("Error in getting new bot: %v\n", err)
 	}
 
-	bot.Debug = false
+	bot.Debug = true
 	return bot
 }
 
-// Run starts bot
 func main() {
-	webhookURL := "https://ef1bc65b.ngrok.io/"
+	webhookURL := "https://XXXXXXXX.ngrok.io/"
 
 	bot := getBot(os.Getenv("TELEGRAM_TOKEN"))
-	// TODO: remove it
-	if bot.Debug {
-		bot.GetWebhookInfo()
-	}
+	bot.GetWebhookInfo() // TODO
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	bot.RemoveWebhook()
+	bot.RemoveWebhook() // TODO
 	_, err := bot.SetWebhook(tgbotapi.NewWebhook(webhookURL + bot.Token))
 	if err != nil {
 		log.Fatal(err)
