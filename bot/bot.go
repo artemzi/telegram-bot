@@ -3,26 +3,26 @@ package bot
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"gopkg.in/telegram-bot-api.v4"
 )
 
-// Run start bot and return (instance, updates object)
+// Run func start a bot and return (instance, updates object)
 func Run() (*tgbotapi.BotAPI, tgbotapi.UpdatesChannel) {
-	webhookURL := "https://5fe34562.ngrok.io/"
-	bot := getBot(os.Getenv("TELEGRAM_TOKEN"))
-	bot.GetWebhookInfo() // TODO
-
+	config := InitConfig()
+	bot := getBot(config.TelegramToken)
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	bot.RemoveWebhook() // TODO
-	_, err := bot.SetWebhook(tgbotapi.NewWebhook(webhookURL + bot.Token))
+
+	bot.GetWebhookInfo() // TODO remove debug info
+
+	bot.RemoveWebhook() // TODO check
+	_, err := bot.SetWebhook(tgbotapi.NewWebhook(config.WebhookURL))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	updates := bot.ListenForWebhook("/" + bot.Token)
-	go http.ListenAndServe(":8080", nil)
+	updates := bot.ListenForWebhook(config.ListenWebhookURL)
+	go http.ListenAndServe(config.ListenAddr, nil) // TODO
 
 	return bot, updates
 }
