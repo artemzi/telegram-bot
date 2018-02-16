@@ -27,7 +27,6 @@ func main() {
 			default:
 				msg.Text = "I don't know that command"
 			}
-
 			uasya.Send(msg)
 			continue
 		}
@@ -39,7 +38,6 @@ func main() {
 			log.Printf("Wrong url %s", update.Message.Text)
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Please provide valid URL string.")
 			msg.ReplyToMessageID = update.Message.MessageID
-
 			uasya.Send(msg)
 		}
 	}
