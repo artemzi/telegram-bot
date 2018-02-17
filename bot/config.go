@@ -1,24 +1,54 @@
 package bot
 
-import "os"
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"time"
+)
+
+// DEBUG app state
+var DEBUG = true
 
 // Config bot configuration endpoints
 type Config struct {
-	TelegramToken    string
-	WebhookURL       string
-	ListenWebhookURL string
-	ListenAddr       string // TODO do i need it outside development process?
+	TelegramToken string
+	WebhookURL    string
+	Debug         bool
 }
 
-// InitConfig read env variables and return Config
-// don't forget trailing slash in the end of WEBHOOK_URL,
-// ex: https://XXXXXXXX.ngrok.io/
+type ngrok struct {
+	PublicURL string `json:"public_url"`
+}
+
+// InitConfig setup config
 func InitConfig() Config {
-	token := os.Getenv("TELEGRAM_TOKEN")
+	data := &ngrok{}
+
+	// get dev server https URL (curl http://localhost:4040/api/tunnels/command_line | jq .public_url)
+	if DEBUG {
+		cli := &http.Client{Timeout: 3 * time.Second}
+		r, err := cli.Get("http://localhost:4040/api/tunnels/command_line")
+		if err != nil {
+			log.Fatalf("Error in getting config json: %v", err)
+		}
+		defer r.Body.Close()
+
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatalf("Error in reading response: %v", err)
+		}
+
+		json.Unmarshal(body, &data)
+	} else {
+		// TODO set data.PublicURL for debug == false
+	}
+
 	return Config{
-		TelegramToken:    token,
-		WebhookURL:       os.Getenv("WEBHOOK_URL") + token,
-		ListenWebhookURL: "/" + token,
-		ListenAddr:       ":8080",
+		TelegramToken: os.Getenv("TELEGRAM_TOKEN"),
+		WebhookURL:    data.PublicURL,
+		Debug:         DEBUG,
 	}
 }
