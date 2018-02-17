@@ -16,7 +16,7 @@ func Run() (*tgbotapi.BotAPI, tgbotapi.UpdatesChannel) {
 
 	bot.GetWebhookInfo() // TODO remove debug info
 
-	// bot.RemoveWebhook() // TODO check
+	bot.RemoveWebhook() // TODO check
 	_, err := bot.SetWebhook(tgbotapi.NewWebhook(config.WebhookURL + "/" + bot.Token))
 	if err != nil {
 		log.Fatal(err)
