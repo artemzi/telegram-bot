@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/artemzi/summarizer"
 	"github.com/artemzi/telegram-bot/bot"
 	"github.com/asaskevich/govalidator"
 
@@ -10,7 +12,7 @@ import (
 )
 
 func main() {
-	uasya, updates := bot.Run()
+	app, updates := bot.Run()
 
 	for update := range updates {
 		log.Printf("[%s] %+v\n", update.Message.From, update.Message.Text)
@@ -27,18 +29,25 @@ func main() {
 			default:
 				msg.Text = "I don't know that command"
 			}
-			uasya.Send(msg)
+			app.Send(msg)
 			continue
 		}
 
 		if govalidator.IsRequestURL(update.Message.Text) { // if valid URL string
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Thanks url is valid.")
-			uasya.Send(msg)
+			s := summarizer.CreateFromURL(update.Message.Text)
+			summary, err := s.Summarize()
+			if err != nil {
+				fmt.Println("Error occurred: ", err.Error())
+				return
+			}
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, summary)
+			app.Send(msg)
 		} else {
 			log.Printf("Wrong url %s", update.Message.Text)
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Please provide valid URL string.")
 			msg.ReplyToMessageID = update.Message.MessageID
-			uasya.Send(msg)
+			app.Send(msg)
 		}
 	}
 }
