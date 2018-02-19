@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/artemzi/summarizer"
@@ -21,8 +20,8 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 			switch update.Message.Command() {
 			case "help":
-				msg.Text = "type /sayhi or /status."
-			case "sayhi":
+				msg.Text = "type /start or /status."
+			case "start":
 				msg.Text = "Hi :)"
 			case "status":
 				msg.Text = "I'm ok."
@@ -37,8 +36,7 @@ func main() {
 			s := summarizer.CreateFromURL(update.Message.Text)
 			summary, err := s.Summarize()
 			if err != nil {
-				fmt.Println("Error occurred: ", err.Error())
-				return
+				log.Println("Error occurred: ", err.Error())
 			}
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, summary)
