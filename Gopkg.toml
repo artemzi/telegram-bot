@@ -26,14 +26,17 @@
 
 
 [[constraint]]
-  name = "gopkg.in/telegram-bot-api.v4"
-  version = "4.6.1"
-
-[prune]
-  non-go = true
-  go-tests = true
-  unused-packages = true
+  branch = "master"
+  name = "github.com/artemzi/summarizer"
 
 [[constraint]]
   name = "github.com/asaskevich/govalidator"
   version = "8.0.0"
+
+[[constraint]]
+  name = "gopkg.in/telegram-bot-api.v4"
+  version = "4.6.1"
+
+[prune]
+  go-tests = true
+  unused-packages = true

@@ -2,16 +2,43 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/artemzi/summarizer"
+  packages = [
+    ".",
+    "helpers"
+  ]
+  revision = "1db3ddf185a1bd17e30054689138a58d37d5bbf7"
+
+[[projects]]
   name = "github.com/asaskevich/govalidator"
   packages = ["."]
   revision = "521b25f4b05fd26bec69d9dedeb8f9c9a83939a8"
   version = "v8"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/signintech/gopdf"
+  packages = [
+    ".",
+    "fontmaker/core"
+  ]
+  revision = "7593563c0587cf36f4f2bc99f09a419bd94a5386"
+
+[[projects]]
   name = "github.com/technoweenie/multipartstreamer"
   packages = ["."]
   revision = "a90a01d73ae432e2611d178c18367fbaa13e0154"
   version = "v1.0.1"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = [
+    "html",
+    "html/atom"
+  ]
+  revision = "cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb"
 
 [[projects]]
   name = "gopkg.in/telegram-bot-api.v4"
@@ -22,6 +49,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f4c8699dc5c5172a978fd0c56939d79df78516390c480cd0ea32fd0da0f6b450"
+  inputs-digest = "1d98da6b5f67e7eb0f8099f93b8e1b4a8d91498d94536294ed736286040a1a46"
   solver-name = "gps-cdcl"
   solver-version = 1

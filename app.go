@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/artemzi/summarizer"
 	"github.com/artemzi/telegram-bot/bot"
 	"github.com/asaskevich/govalidator"
 
@@ -32,7 +34,14 @@ func main() {
 		}
 
 		if govalidator.IsRequestURL(update.Message.Text) { // if valid URL string
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Thanks url is valid.")
+			s := summarizer.CreateFromURL(update.Message.Text)
+			summary, err := s.Summarize()
+			if err != nil {
+				fmt.Println("Error occurred: ", err.Error())
+				return
+			}
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, summary)
 			app.Send(msg)
 		} else {
 			log.Printf("Wrong url %s", update.Message.Text)
