@@ -3,6 +3,6 @@
 Use it with:
 
 ```Go
-$ make rundev
-$ go run app.go
+$ make init && make build
+$ ./telegram_bot
 ```
