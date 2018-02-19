@@ -20,9 +20,12 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 			switch update.Message.Command() {
 			case "help":
-				msg.Text = "type /start or /status."
+				msg.Text = `
+					Please paste valid English article URL for bot.
+You can use /status command for bot status.
+				`
 			case "start":
-				msg.Text = "Hi :)"
+				msg.Text = "Hello I'm ready to help you."
 			case "status":
 				msg.Text = "I'm ok."
 			default:
