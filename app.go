@@ -39,8 +39,15 @@ func main() {
 				log.Println("Error occurred: ", err.Error())
 			}
 
+			summaryInfo, err := s.GetSummaryInfo()
+			if err != nil {
+				log.Println("Error occurred: ", err.Error())
+			}
+
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, summary)
+			msgInfo := tgbotapi.NewMessage(update.Message.Chat.ID, summaryInfo)
 			app.Send(msg)
+			app.Send(msgInfo)
 		} else {
 			log.Printf("Wrong url %s", update.Message.Text)
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Please provide valid URL string.")
